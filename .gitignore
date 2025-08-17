@@ -1,0 +1,40 @@
+# Gradle build output
+/build/
+/.gradle/
+/out/
+
+# Kotlin/Java build output
+*.class
+*.jar
+*.war
+*.ear
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Distribution archives
+*.zip
+*.tar
+*.tar.gz
+
+# Test results
+/test-results/
+*.bin
+
+# Scripts
+/scripts/
+
+# Local environment
+.env
+
