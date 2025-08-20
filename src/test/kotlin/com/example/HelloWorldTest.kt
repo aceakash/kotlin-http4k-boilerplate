@@ -23,6 +23,7 @@ class HelloWorldTest {
     fun `Ping test`() {
         assertEquals(Response(OK).body("pong"), app(Request(GET, "/ping")))
     }
+
     @Test
     fun `Check Hamkrest matcher for http4k work as expected`() {
         val request = Request(GET, "/testing/hamkrest?a=b").body("http4k is cool").header("my header", "a value")
@@ -48,5 +49,4 @@ class HelloWorldTest {
         // composite
         assertThat(request, hasBody("http4k is cool").and(hasQuery("a", "b")))
     }
-
 }

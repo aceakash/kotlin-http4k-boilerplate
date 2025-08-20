@@ -1,62 +1,44 @@
-import org.gradle.api.JavaVersion.VERSION_21
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+val junitVersion="5.10.0"
+val http4kVersion="5.10.3.0"
+val kotlinVersion="1.9.20"
 
 plugins {
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "1.9.20"
     application
-}
-
-buildscript {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-
-    dependencies {
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
-application {
-    mainClass = "com.example.HelloWorldKt"
 }
 
 repositories {
     mavenCentral()
-}
-
-tasks {
-    withType<KotlinJvmCompile>().configureEach {
-        compilerOptions {
-            allWarningsAsErrors = false
-            jvmTarget.set(JVM_21)
-            freeCompilerArgs.add("-Xjvm-default=all")
-        }
-    }
-
-    withType<Test> {
-        useJUnitPlatform()
-    }
-
-    java {
-        sourceCompatibility = VERSION_21
-        targetCompatibility = VERSION_21
-    }
+    gradlePluginPortal()
 }
 
 dependencies {
-    implementation(platform("org.http4k:http4k-bom:6.15.1.0"))
-    implementation("org.http4k:http4k-core")
-    testImplementation("org.http4k:http4k-testing-approval")
-    testImplementation("org.http4k:http4k-testing-hamkrest")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.3")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.13.3")
-    testImplementation("org.junit.platform:junit-platform-launcher:1.13.3")
+    implementation("org.http4k:http4k-core:$http4kVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    testImplementation("org.http4k:http4k-testing-approval:$http4kVersion")
+    testImplementation("org.http4k:http4k-testing-hamkrest:$http4kVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
+application {
+    mainClass.set("com.example.HelloWorldKt")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "11"
+        freeCompilerArgs += "-Xjvm-default=all"
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
